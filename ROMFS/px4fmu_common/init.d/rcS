@@ -26,6 +26,8 @@ set FEXTRAS                     /fs/microsd/etc/extras.txt
 set FRC                         /fs/microsd/etc/rc.txt
 set FMU_ARGS                    ""
 set FMU_MODE                    pwm
+set ECU_MODE                    pwm
+set ECU_ARGS                    ""
 set IO_FILE                     ""
 set IO_PRESENT                  no
 set LOG_FILE                    /fs/microsd/bootlog.txt
@@ -53,6 +55,7 @@ set PWM_AUX_MIN                 p:PWM_AUX_MIN
 set PWM_AUX_MAX                 p:PWM_AUX_MAX
 set TUNE_ERR                    "ML<<CP4CP4CP4CP4CP4"
 set USE_IO                      no
+set USE_ECU                     no
 set VEHICLE_TYPE                none
 
 #
@@ -152,8 +155,8 @@ then
 		fi
 	fi
 
-	# FMUv5 may have both PWM I2C RGB LED support
-	rgbled_pwm start
+    # FMUv5 may have both PWM I2C RGB LED support
+    rgbled_pwm start
 
 	#
 	# Set AUTOCNF flag to use it in AUTOSTART scripts
@@ -227,6 +230,21 @@ then
 		set FMU_ARGS "-t"
 	fi
 
+    #
+    # Check ECU to see if override USE_IO
+    #
+    if param compare SYS_USE_ECU 1
+    then
+        echo "USE_ECU = yes"
+        set USE_IO no
+        set USE_ECU yes
+    fi
+
+    if param compare SYS_ECU_TASK 1
+    then
+        set ECU_ARGS "task"
+    fi
+
 	#
 	# Set parameters and env variables for selected AUTOSTART
 	#
@@ -264,13 +282,13 @@ then
 	if [ $AUTOCNF == yes ]
 	then
 		# Disable safety switch by default on Pixracer and OmnibusF4SD
-		if ver hwcmp PX4FMU_V4 OMNIBUS_F4SD
+		if ver hwcmp MINDPX_V2 PX4FMU_V4 OMNIBUS_F4SD
 		then
 			param set CBRK_IO_SAFETY 22027
 		fi
 
 		# Run FMU as task on Pixracer and on boards with enough RAM
-		if ver hwcmp PX4FMU_V4 PX4FMU_V4PRO PX4FMU_V5
+		if ver hwcmp MINDPX_V2 PX4FMU_V4 PX4FMU_V4PRO PX4FMU_V5
 		then
 			param set SYS_FMU_TASK 1
 		fi
@@ -350,6 +368,14 @@ then
 			set OUTPUT_MODE io
 		else
 			set OUTPUT_MODE fmu
+            # Check ECU flag to override output mode, on mindpx_v2 only for now
+            if ver hwcmp MINDPX_V2
+            then
+                if [ $USE_ECU == yes ]
+                then
+                    set OUTPUT_MODE ecu
+                fi
+            fi
 		fi
 	fi
 
@@ -417,6 +443,7 @@ then
 	then
 		# clear pins 5 and 6
 		set FMU_MODE pwm4
+        set ECU_MODE pwm4
 		set AUX_MODE pwm4
 	fi
 	if param greater TRIG_MODE 0
@@ -426,6 +453,7 @@ then
 		then
 			# clear pins 5 and 6
 			set FMU_MODE pwm4
+            set ECU_MODE pwm4
 			set AUX_MODE pwm4
 		else
 			set FMU_MODE none
@@ -463,11 +491,23 @@ then
 		then
 			if fmu mode_$FMU_MODE $FMU_ARGS
 			then
+                echo "fmu started."
 			else
 				echo "FMU start failed" >> $LOG_FILE
 				tune_control play -m ${TUNE_ERR}
 			fi
 		fi
+
+        if [ $OUTPUT_MODE == ecu ]
+        then
+        if px4ecu $ECU_ARGS mode_$ECU_MODE
+            then
+                echo "ecu started."
+            else
+                echo "PX4 ECU start failed" >> $LOG_FILE
+                tune_control play -m ${TUNE_ERR}
+            fi
+        fi
 
 		if [ $OUTPUT_MODE == mkblctrl ]
 		then
@@ -514,8 +554,9 @@ then
 		else
 			if [ $OUTPUT_MODE != fmu ]
 			then
-				if fmu mode_${FMU_MODE} $FMU_ARGS
+            if fmu mode_${FMU_MODE} $FMU_ARGS
 				then
+                    echo "start FMU as AUX"
 				else
 					echo "FMU mode_${FMU_MODE} start failed" >> $LOG_FILE
 					tune_control play -m ${TUNE_ERR}
@@ -800,6 +841,8 @@ unset FEXTRAS
 unset FRC
 unset FMU_ARGS
 unset FMU_MODE
+unset ECU_ARGS
+unset ECU_MODE
 unset IO_FILE
 unset IO_PRESENT
 unset LOG_FILE
@@ -830,6 +873,7 @@ unset PWM_AUX_MIN
 unset PWM_AUX_MAX
 unset TUNE_ERR
 unset USE_IO
+unset USE_ECU
 unset VEHICLE_TYPE
 
 

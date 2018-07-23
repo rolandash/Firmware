@@ -35,7 +35,7 @@
  * @file rgbled_pwm.cpp
  *
  * Driver for the onboard RGB LED controller by PWM.
- * this driver is based the PX4 led driver
+ * this driver is based on the PX4 led driver
  *
  */
 
@@ -86,7 +86,7 @@ private:
 	uint8_t			_r;
 	uint8_t			_g;
 	uint8_t			_b;
-	float			_brightness;
+	uint8_t			_brightness;
 
 	volatile bool		_running;
 	volatile bool		_should_run;
@@ -140,6 +140,7 @@ RGBLED_PWM::init()
 {
 	/* switch off LED on start */
 	CDev::init();
+    printf("Initializing pwm tri-color LED ...\n");
 	led_pwm_servo_init();
 	send_led_rgb();
 
@@ -209,42 +210,42 @@ RGBLED_PWM::led()
 	LedControlData led_control_data;
 
 	if (_led_controller.update(led_control_data) == 1) {
-		switch (led_control_data.leds[0].color) {
+        _brightness = led_control_data.leds[0].brightness;
+
+        switch (led_control_data.leds[0].color) {
 		case led_control_s::COLOR_RED:
-			_r = 255; _g = 0; _b = 0;
+			_r = _brightness; _g = 0; _b = 0;
 			break;
 
 		case led_control_s::COLOR_GREEN:
-			_r = 0; _g = 255; _b = 0;
+			_r = 0; _g = _brightness; _b = 0;
 			break;
 
 		case led_control_s::COLOR_BLUE:
-			_r = 0; _g = 0; _b = 255;
+			_r = 0; _g = 0; _b = _brightness;
 			break;
 
 		case led_control_s::COLOR_AMBER: //make it the same as yellow
 		case led_control_s::COLOR_YELLOW:
-			_r = 255; _g = 255; _b = 0;
+			_r = _brightness; _g = _brightness; _b = 0;
 			break;
 
 		case led_control_s::COLOR_PURPLE:
-			_r = 255; _g = 0; _b = 255;
+			_r = _brightness; _g = 0; _b = _brightness;
 			break;
 
 		case led_control_s::COLOR_CYAN:
-			_r = 0; _g = 255; _b = 255;
+			_r = 0; _g = _brightness; _b = _brightness;
 			break;
 
 		case led_control_s::COLOR_WHITE:
-			_r = 255; _g = 255; _b = 255;
+			_r = _brightness; _g = _brightness; _b = _brightness;
 			break;
 
 		default: // led_control_s::COLOR_OFF
 			_r = 0; _g = 0; _b = 0;
 			break;
 		}
-
-		_brightness = (float)led_control_data.leds[0].brightness / 255.f;
 
 		send_led_rgb();
 	}
@@ -260,6 +261,7 @@ RGBLED_PWM::led()
 int
 RGBLED_PWM::send_led_rgb()
 {
+
 #if defined(BOARD_HAS_LED_PWM)
 	led_pwm_servo_set(0, _r);
 	led_pwm_servo_set(1, _g);
