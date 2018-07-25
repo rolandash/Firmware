@@ -13,6 +13,7 @@ set(config_module_list
     #drivers/magnetometer
 	drivers/telemetry
 
+    drivers/magnetometer/hmc5883
 	drivers/batt_smbus
 	drivers/blinkm
 	drivers/camera_trigger
@@ -31,7 +32,7 @@ set(config_module_list
 	drivers/px4flow
 	drivers/px4fmu
     drivers/px4ecu
-    #drivers/rgbled
+    drivers/rgbled
 	drivers/rgbled_pwm
 	drivers/stm32
 	drivers/stm32/adc

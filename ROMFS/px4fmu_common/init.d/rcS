@@ -57,6 +57,7 @@ set TUNE_ERR                    "ML<<CP4CP4CP4CP4CP4"
 set USE_IO                      no
 set USE_ECU                     no
 set VEHICLE_TYPE                none
+set USE_PWM_LED                 no
 
 #
 # Mount the procfs.
@@ -148,12 +149,17 @@ then
 	#
 	if rgbled start
 	then
+        echo "rgbled started. "
+        set USE_PWM_LED no
 	else
+        set USE_PWM_LED yes
 		if blinkm start
 		then
 			blinkm systemstate
 		fi
 	fi
+
+echo "USE_PWM_LED = $USE_PWM_LED"
 
     # FMUv5 may have both PWM I2C RGB LED support
     rgbled_pwm start
@@ -875,7 +881,7 @@ unset TUNE_ERR
 unset USE_IO
 unset USE_ECU
 unset VEHICLE_TYPE
-
+unset USE_PWM_LED
 
 # Boot is complete, inform MAVLink app(s) that the system is now fully up and running
 mavlink boot_complete

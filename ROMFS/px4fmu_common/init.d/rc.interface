@@ -76,6 +76,13 @@ else
 	fi
 fi
 
+
+#set pwm led flag on /dev/pwm_output0
+if [ $USE_PWM_LED == yes ]
+then
+    pwm led
+fi
+
 #if [ $OUTPUT_MODE == fmu -o $OUTPUT_MODE == io -o $OUTPUT_MODE == ecu]
 if [ $OUTPUT_MODE != none ]
 then
@@ -141,6 +148,12 @@ then
 
 	set MIXER_AUX_FILE none
 	set OUTPUT_AUX_DEV /dev/pwm_output1
+
+    #set pwm led flag on /dev/pwm_output1
+    if [ $USE_PWM_LED == yes ]
+    then
+        pwm led -d ${OUTPUT_AUX_DEV}
+    fi
 
 	if [ -f ${SDCARD_MIXERS_PATH}/${MIXER_AUX}.aux.mix ]
 	then
