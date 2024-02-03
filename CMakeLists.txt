@@ -177,7 +177,9 @@ if(PYTHON_COVERAGE)
 endif()
 
 include(px4_config)
+message(STATUS "=======")
 include(kconfig)
+message(STATUS "-------")
 message(STATUS "PX4 config: ${PX4_CONFIG}")
 message(STATUS "PX4 platform: ${PX4_PLATFORM}")
 
