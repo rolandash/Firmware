@@ -270,6 +270,7 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 		led_on(LED_RED);
 	}
 
+#if defined (CONFIG_MMCSD) && defined (CONFIG_MMCSD_SPI)
     /* Get the SPI port for the microSD slot */
     struct spi_dev_s *spi_dev = stm32_spibus_initialize(/*CONFIG_NSH_MMCSDSPIPORTNO*/3);
 
@@ -303,6 +304,8 @@ __EXPORT int board_app_initialize(uintptr_t arg)
     }
 
 #endif
+#endif /* defined (CONFIG_MMCSD) && defined (CONFIG_MMCSD_SPI) */
+    
 	/* Configure the HW based on the manifest */
 
 	px4_platform_configure();
