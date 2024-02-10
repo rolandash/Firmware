@@ -272,10 +272,10 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 
 #if defined (CONFIG_MMCSD) && defined (CONFIG_MMCSD_SPI)
     /* Get the SPI port for the microSD slot */
-    struct spi_dev_s *spi_dev = stm32_spibus_initialize(/*CONFIG_NSH_MMCSDSPIPORTNO*/3);
+    struct spi_dev_s *spi_dev = stm32_spibus_initialize(CONFIG_NSH_MMCSDSPIPORTNO);
 
     if (!spi_dev) {
-        syslog(LOG_ERR, "[boot] FAILED to initialize SPI port %d\n", /*CONFIG_NSH_MMCSDSPIPORTNO*/3);
+        syslog(LOG_ERR, "[boot] FAILED to initialize SPI port %d\n", CONFIG_NSH_MMCSDSPIPORTNO);
         led_on(LED_BLUE);
     }
 
@@ -283,7 +283,7 @@ __EXPORT int board_app_initialize(uintptr_t arg)
     int result = mmcsd_spislotinitialize(CONFIG_NSH_MMCSDMINOR, CONFIG_NSH_MMCSDSLOTNO, spi_dev);
 
     if (result != OK) {
-        syslog(LOG_ERR, "[boot] Could not bind MMCSD driver, expected on Kakute H7 V2\n");
+        syslog(LOG_ERR, "[boot] Could not bind MMCSD driver\n");
     }
 
     up_udelay(20);
