@@ -80,13 +80,13 @@
 // DMA1 Channel/Stream Selections
 //--------------------------------------------//---------------------------//----------------
 //      DMAMAP_UART8_TX                       // DMA1, Stream 0, Channel 5    (PX4IO TX)
-//#define DMAMAP_SPI2_RX    DMAMAP_SPI2_RX_2    // DMA1, Stream 0, Channel 3    (PX4IO TX)
-//#define DMAMAP_SPI2_TX    DMAMAP_SPI2_TX_2    // DMA1, Stream 0, Channel 4    (PX4IO TX)
-#define DMAMAP_SPI3_RX    DMAMAP_SPI3_RX_2    // DMA1, Stream 0, Channel 2    (PX4IO TX)
-#define DMAMAP_SPI3_TX    DMAMAP_SPI3_TX_1    // DMA1, Stream 0, Channel 5    (PX4IO TX)
+//#define DMAMAP_SPI2_RX    DMAMAP_SPI2_RX_2    // DMA1, Stream 3, Channel 0    (PX4IO TX)
+//#define DMAMAP_SPI2_TX    DMAMAP_SPI2_TX_2    // DMA1, Stream 4, Channel 0    (PX4IO TX)
+#define DMAMAP_SPI3_RX    DMAMAP_SPI3_RX_2    // DMA1, Stream 2, Channel 0    (SPISD RX)
+#define DMAMAP_SPI3_TX    DMAMAP_SPI3_TX_1    // DMA1, Stream 5, Channel 0    (SPISD TX)
 //      DMAMAP_USART3_RX                      // DMA1, Stream 1, Channel 4    (TELEM2 RX)
 //      DMAMAP_UART4_RX                       // DMA1, Stream 2, Channel 4    (TELEM4 RX)
-#define DMAMAP_USART3_TX  DMAMAP_USART3_TX_1  // DMA1, Stream 3, Channel 4    (TELEM2 TX)
+#define DMAMAP_USART3_TX  DMAMAP_USART3_TX_1  // DMA1, Stream 3, Channel 4    (DEBUG TX)
 //      DMAMAP_USART2_RX                      // DMA1, Stream 5, Channel 4    (TELEM1 RX)
 //      DMAMAP_UART8_RX                       // DMA1, Stream 6, Channel 5    (PX4IO RX)
 //#define DMAMAP_I2C1_RX  DMAMAP_I2C_RX_1  // DMA1, Stream 0, Channel 0    (TELEM2 TX)
@@ -97,7 +97,7 @@
 //--------------------------------------------//---------------------------//----------------
 #define DMAMAP_SPI4_RX    DMAMAP_SPI4_RX_1    // DMA2, Stream 0, Channel 0    (SPI sensors RX)
 #define DMAMAP_SPI4_TX    DMAMAP_SPI4_TX_1    // DMA2, Stream 1, Channel 4    (SPI sensors TX)
-#define DMAMAP_USART6_RX  DMAMAP_USART6_RX_2  // DMA2, Stream 2, Channel 5
+//#define DMAMAP_USART6_RX  DMAMAP_USART6_RX_2  // DMA2, Stream 2, Channel 5
 //#define DMAMAP_SPI4_TX    DMAMAP_SPI1_TX_1    // DMA2, Stream 3, Channel 3    (SPI sensors TX)
 //      AVAILABLE                             // DMA2, Stream 4
 //      DMAMAP_TIM1_UP                        // DMA2, Stream 5, Channel 6    (DSHOT)

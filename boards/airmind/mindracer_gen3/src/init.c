@@ -290,8 +290,8 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 
 #if defined(FLASH_BASED_PARAMS)
     static sector_descriptor_t params_sector_map[] = {
-        {1, 32 * 1024, 0x08008000},
-        {2, 32 * 1024, 0x08010000},
+        {1, 32 * 1024, 0x081effff},
+        {2, 32 * 1024, 0x081f7fff},
         {0, 0, 0},
     };
 
@@ -302,7 +302,10 @@ __EXPORT int board_app_initialize(uintptr_t arg)
         syslog(LOG_ERR, "[boot] FAILED to init params in FLASH %d\n", result);
         led_on(LED_AMBER);
     }
-
+    else {
+        led_on(LED_AMBER);
+        //PX4_ERROR("Use Flash based params.\n");
+    }
 #endif
 #endif /* defined (CONFIG_MMCSD) && defined (CONFIG_MMCSD_SPI) */
     
