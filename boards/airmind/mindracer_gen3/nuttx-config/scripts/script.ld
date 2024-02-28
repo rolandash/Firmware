@@ -51,7 +51,7 @@
  *      ST programmed value: System bootloader at 0x0010:0000
  *
  * NuttX does not modify these option byes.  On the unmodified NUCLEO-144
- * board, the BOOT0 pin is at ground so by default, the STM32F765IIT6 will
+ * board, the BOOT0 pin is at ground so by default, the STM32F765VIT6 will
  * boot from address 0x0020:0000 in ITCM FLASH.
  *
  * The STM32F765VIT6 also has 512 KiB of data SRAM (in addition to ITCM SRAM).

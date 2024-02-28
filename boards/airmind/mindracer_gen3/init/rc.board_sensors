@@ -17,10 +17,10 @@ icm20602 -s -R 6 start
 
 # internal compass
 # hmc5883 -T -I -R 12 start
-qmc5883l -I -R 0 start
+qmc5883l -I -f 1000 -R 0 start
 
 # Internal baro
-dps310 -I start -a 119
+dps310 -I -f 1000 start -a 119
 
 
 # External compass on GPS1/I2C1 (the 3rd external bus): standard Holybro GPS/compass puck (with lights, safety button, and buzzer)
