@@ -262,15 +262,16 @@
 
 /* High-resolution timer */
 #define HRT_TIMER               5  /* use timer5 for the HRT */
-#define HRT_TIMER_CHANNEL       4  /* use capture/compare channel 4 */
+#define HRT_TIMER_CHANNEL       1  /* use capture/compare channel 4 */
 
+#if 0
 #define HRT_PPM_CHANNEL         /* T5CH4 */  4  /* use capture/compare channel 4 */
 #define GPIO_PPM_IN             /* PA3 T5CH4 */ GPIO_TIM5_CH4IN_1
+#endif
 
 /* RC Serial port */
-
 #define RC_SERIAL_PORT                     "/dev/ttyS1"
-#define RC_SERIAL_SINGLEWIRE
+//#define RC_SERIAL_SINGLEWIRE
 
 /* PWM input driver. Use FMU AUX5 pins attached to timer4 channel 2 */
 #define PWMIN_TIMER                       4

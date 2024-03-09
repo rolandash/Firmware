@@ -67,7 +67,7 @@ constexpr io_timers_t io_timers[MAX_IO_TIMERS] = {
     initIOTimer(Timer::Timer1),
 	initIOTimer(Timer::Timer2),
     //initIOTimer(Timer::Timer13),
-    initIOTimer(Timer::Timer5),
+    //initIOTimer(Timer::Timer5),
     //initIOTimer(Timer::Timer14),
     //initIOTimer(Timer::Timer16),
 };
