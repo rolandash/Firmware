@@ -74,14 +74,14 @@ constexpr io_timers_t io_timers[MAX_IO_TIMERS] = {
 
 constexpr timer_io_channels_t timer_io_channels[MAX_TIMER_IO_CHANNELS] = {
     //AUX CH1~8
-	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel4}, {GPIO::PortC, GPIO::Pin6}),
-	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel3}, {GPIO::PortC, GPIO::Pin7}),
-	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel2}, {GPIO::PortC, GPIO::Pin8}),
-	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel1}, {GPIO::PortC, GPIO::Pin9}),
+	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel1}, {GPIO::PortC, GPIO::Pin6}),
+	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel2}, {GPIO::PortC, GPIO::Pin7}),
+	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel3}, {GPIO::PortC, GPIO::Pin8}),
+	initIOTimerChannel(io_timers, {Timer::Timer8, Timer::Channel4}, {GPIO::PortC, GPIO::Pin9}),
     initIOTimerChannel(io_timers, {Timer::Timer2, Timer::Channel3}, {GPIO::PortB, GPIO::Pin10}),
     initIOTimerChannel(io_timers, {Timer::Timer2, Timer::Channel1}, {GPIO::PortA, GPIO::Pin15}),
-    initIOTimerChannel(io_timers, {Timer::Timer9, Timer::Channel2}, {GPIO::PortE, GPIO::Pin5}),
-    initIOTimerChannel(io_timers, {Timer::Timer9, Timer::Channel3}, {GPIO::PortE, GPIO::Pin6}),
+    initIOTimerChannel(io_timers, {Timer::Timer9, Timer::Channel1}, {GPIO::PortE, GPIO::Pin5}),
+    initIOTimerChannel(io_timers, {Timer::Timer9, Timer::Channel2}, {GPIO::PortE, GPIO::Pin6}),
     //FMU CH1~6
 	initIOTimerChannel(io_timers, {Timer::Timer4, Timer::Channel1}, {GPIO::PortD, GPIO::Pin12}),
 	initIOTimerChannel(io_timers, {Timer::Timer4, Timer::Channel2}, {GPIO::PortD, GPIO::Pin13}),
