@@ -91,6 +91,7 @@
 //      DMAMAP_UART8_RX                       // DMA1, Stream 6, Channel 5    (PX4IO RX)
 //#define DMAMAP_I2C1_RX  DMAMAP_I2C_RX_1  // DMA1, Stream 0, Channel 0    (TELEM2 TX)
 //#define DMAMAP_I2C1_TX  DMAMAP_I2C_TX_1  // DMA1, Stream 3, Channel 4    (TELEM2 TX)
+//#define DMAMAP_UART5_RX   DMAMAP_UART5_RX  // DMA1, Stream 0, Channel 4    (ESC_TELEM_RX)
 
 
 //  DMA2 Channel/Stream Selections

@@ -349,13 +349,14 @@
 #define GPIO_USART3_CTS  GPIO_USART3_CTS_2  // PD11
 */
 
-/* ** UART4 & 5 not used
+/* ** UART4 not used
 #define GPIO_UART4_RX    GPIO_UART4_RX_4    // PD0
 #define GPIO_UART4_TX    GPIO_UART4_TX_4    // PD1
+*/
 
-#define GPIO_UART5_RX    GPIO_UART5_RX_2    // PB5
-#define GPIO_UART5_TX    GPIO_UART5_TX_1    // PC12
- */
+#define GPIO_UART5_RX    GPIO_UART5_RX_1    // PD2
+#define GPIO_UART5_TX    (GPIO_ALT|GPIO_AF8|GPIO_PULLUP|GPIO_SPEED_100MHz|GPIO_PUSHPULL|GPIO_PORTF|GPIO_PIN0)    // Point to PF0 that does not exists on VIT so that TX will not be used
+
 
 #define GPIO_UART7_RX    GPIO_UART7_RX_1    // PE7 
 #define GPIO_UART7_TX    GPIO_UART7_TX_1    // PE8
