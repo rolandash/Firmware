@@ -220,7 +220,7 @@ RGBLED_KTD202X::probe()
         
         if (ret != PX4_OK) {
 #ifdef CONFIG_I2C
-            PX4_DEBUG("no insetance at addr 0x%2x", get_device_address());
+            PX4_DEBUG("no instance at addr 0x%2x", get_device_address());
             //try next alternative address;
             for (; addr_idx < sizeof(_alt_addrs); addr_idx++) {
                 if (default_addr != _alt_addrs[addr_idx]) {
@@ -470,7 +470,7 @@ RGBLED_KTD202X::print_usage()
 	PRINT_MODULE_USAGE_COMMAND("start");
 	PRINT_MODULE_USAGE_PARAMS_I2C_SPI_DRIVER(true, false);
 	PRINT_MODULE_USAGE_PARAMS_I2C_ADDRESS(KTD2026EWE_ADDR);
-    PRINT_MODULE_USAGE_PARAM_FLAG('w', "use white channel for ktd2027", true);
+    PRINT_MODULE_USAGE_PARAM_FLAG('w', "use white channel (for ktd2027 only)", true);
 	PRINT_MODULE_USAGE_PARAM_INT('o', 123, 123, 321, "RGB PWM Assignment", true);
     PRINT_MODULE_USAGE_PARAM_INT('z', 255, 1, 255, "Specify the limit of output current in step of 0.125mA, valid between 1(0.25mA) and 255(24mA)", true);
 
