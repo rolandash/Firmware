@@ -213,7 +213,7 @@ RGBLED_KTD202X::probe()
         chip_reset();
         
         //wait 200us before sending next cmd per datasheet required.
-        up_udelay(199);
+        up_udelay(299);
         
         //set chip enable control mode;
         ret = set_all_channel(CMD_CHANNEL_AOFF);
@@ -356,6 +356,11 @@ RGBLED_KTD202X::w8_reg(uint8_t reg, uint8_t data)
     return ret;
 }
 
+/* NOTE ***
+ * ktd202x I2C read sequence is different from normal.
+ * Return 0 for the moment as no read ops are mandatory for
+ * this application.
+ */
 int
 RGBLED_KTD202X::r8_reg(uint8_t reg, uint8_t* data)
 {
@@ -363,7 +368,7 @@ RGBLED_KTD202X::r8_reg(uint8_t reg, uint8_t* data)
     msg[0] = reg;
 
     int ret = transfer(nullptr, 0, msg, 2);
-    *data = msg[1];
+    *data = 0;
 
     return ret;
 }
@@ -399,10 +404,7 @@ RGBLED_KTD202X::set_channel_enable(uint8_t ch_reg, uint8_t ch_mode)
     }
     
     //set channel mode;
-    ret = r8_reg(CTRL_REG4_ADDR, &reg_val);
-    if (ret != PX4_OK) {
-        return ret;
-    }
+    reg_val = _ch_mode[0] | (_ch_mode[1] << 2) | (_ch_mode[2] << 4) | (_ch_mode[3] << 6);
     
     reg_val &= ~(0x03 << (ch_idx*2));
     reg_val |= ch_mode << (ch_idx*2);
