@@ -160,10 +160,9 @@
 /* HW Version and Revision drive signals Default to 1 to detect */
 
 #define BOARD_HAS_HW_VERSIONING
-/* HW driver not used***/
-#define GPIO_HW_REV_DRIVE    /* PH14  */ (GPIO_OUTPUT|GPIO_PUSHPULL|GPIO_SPEED_2MHz|GPIO_OUTPUT_SET|GPIO_PORTH|GPIO_PIN14)
+/* HW Ver/Rev drive use the same pin **/
+#define GPIO_HW_VER_REV_DRIVE    /* PB4  */ (GPIO_OUTPUT|GPIO_PUSHPULL|GPIO_SPEED_2MHz|GPIO_OUTPUT_SET|GPIO_PORTB|GPIO_PIN4)
 #define GPIO_HW_REV_SENSE    /* PC1   */ ADC1_GPIO(11)
-#define GPIO_HW_VER_DRIVE    /* PG0   */ (GPIO_OUTPUT|GPIO_PUSHPULL|GPIO_SPEED_2MHz|GPIO_OUTPUT_SET|GPIO_PORTG|GPIO_PIN0)
 #define GPIO_HW_VER_SENSE    /* PA2   */ ADC1_GPIO(2)
 #define HW_INFO_INIT_PREFIX         "MINDRACER_GEN3"
 
@@ -371,8 +370,7 @@
 
 #define PX4_GPIO_INIT_LIST { \
 		PX4_ADC_GPIO,                     \
-		GPIO_HW_REV_DRIVE,                \
-		GPIO_HW_VER_DRIVE,                \
+		GPIO_HW_VER_REV_DRIVE,            \
 		GPIO_CAN1_TX,                     \
 		GPIO_CAN1_RX,                     \
 		GPIO_CAN1_SILENT_S0,              \

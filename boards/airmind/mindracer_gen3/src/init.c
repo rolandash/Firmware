@@ -220,9 +220,7 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 	//VDD_5V_WIFI_EN(true);
 
 	/* Need hrt running before using the ADC */
-
 	px4_platform_init();
-
 
 	if (OK == board_determine_hw_info()) {
 		syslog(LOG_INFO, "[boot] Rev 0x%1x : Ver 0x%1x %s\n", board_get_hw_revision(), board_get_hw_version(),
@@ -261,13 +259,13 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 #endif
 
 	/* initial LED state */
-	drv_led_start();
-	led_off(LED_RED);
-	led_on(LED_GREEN); // Indicate Power.
-	led_off(LED_BLUE);
+	//drv_led_start();
+	//led_off(LED_RED);
+	//led_on(LED_GREEN); // Indicate Power.
+	//led_off(LED_BLUE);
 
 	if (board_hardfault_init(2, true) != 0) {
-		led_on(LED_RED);
+		//led_on(LED_RED);
 	}
 
 #if defined (CONFIG_MMCSD) && defined (CONFIG_MMCSD_SPI)
@@ -276,7 +274,7 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 
     if (!spi_dev) {
         syslog(LOG_ERR, "[boot] FAILED to initialize SPI port %d\n", CONFIG_NSH_MMCSDSPIPORTNO);
-        led_on(LED_BLUE);
+        //led_on(LED_BLUE);
     }
 
     /* Now bind the SPI interface to the MMCSD driver */
