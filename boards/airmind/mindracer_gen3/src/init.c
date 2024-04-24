@@ -183,6 +183,70 @@ stm32_boardinitialize(void)
 
 }
 
+/**Setup ethernet connection
+ * Description:
+ *  - check if mindswitch board exists. If does, then setup switch board via I2C
+ *  - otherwise check for SVTX rmii connection.
+ */
+#define K9477S_I2C_ADDR (0xBE >> 1)
+#define CHIP_ID_MSB             0x0001
+#define CHIP_ID_MSB_SIZE        1
+#define CHIP_ID_LSB             0x0002
+#define CHIP_ID_LSB_SIZE        1
+#define CHIP_ID_REV             0x0003
+#define CHIP_ID_REV_SIZE        1
+
+#define PORT_PHY_CTL_5          0x5100
+
+static int setup_eth_rmii(void) {
+    int ret = PX4_ERROR;
+
+    // attach to the i2c bus (internal)
+    struct i2c_master_s *i2c = px4_i2cbus_initialize(4);
+
+    if (i2c == NULL) {
+        syslog(LOG_ERR, "[boot] I2C device not opened\n");
+    }
+
+    // ethernet switch enable
+    uint8_t txdata[] = {0x51, 0x00, 0x21, 0x00}; //0x5100, 0x2100 MSB to LSB here.
+
+    struct i2c_msg_s msgv;
+
+    msgv.frequency = 100000;
+    msgv.addr = 0x5F;
+    msgv.flags = 0;
+    msgv.buffer = &txdata[0];
+    msgv.length = sizeof(txdata);
+
+    unsigned retry_count = 0;
+    const unsigned retries = 5;
+
+    do {
+        ret = I2C_TRANSFER(i2c, &msgv, 1);
+
+        /* success */
+        if (ret == PX4_OK) {
+            break;
+
+        } else {
+            syslog(LOG_ERR, "[boot] ETH switch I2C fail: %d, retrying\n", ret);
+        }
+
+        /* if we have already retried once, or we are going to give up, then reset the bus */
+        if ((retry_count >= 1) || (retry_count >= retries)) {
+            I2C_RESET(i2c);
+        }
+
+    } while (retry_count++ < retries);
+
+    px4_i2cbus_uninitialize(i2c);
+
+    return ret;
+
+}
+
+
 /****************************************************************************
  * Name: board_app_initialize
  *
