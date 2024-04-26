@@ -182,7 +182,7 @@ stm32_boardinitialize(void)
 	stm32_usbinitialize();
 
 }
-
+#if 0
 /**Setup ethernet connection
  * Description:
  *  - check if mindswitch board exists. If does, then setup switch board via I2C
@@ -245,7 +245,7 @@ static int setup_eth_rmii(void) {
     return ret;
 
 }
-
+#endif
 
 /****************************************************************************
  * Name: board_app_initialize
