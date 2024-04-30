@@ -364,13 +364,15 @@ RGBLED_KTD202X::w8_reg(uint8_t reg, uint8_t data)
 int
 RGBLED_KTD202X::r8_reg(uint8_t reg, uint8_t* data)
 {
+#if 0
     uint8_t msg[2] = {0};
     msg[0] = reg;
 
     int ret = transfer(nullptr, 0, msg, 2);
+#endif
     *data = 0;
 
-    return ret;
+    return PX4_OK;
 }
 
 /**
