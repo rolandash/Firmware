@@ -1,0 +1,31 @@
+--- a/stm32_ethernet.c	
++++ b/stm32_ethernet.c	
+@@ -4220,15 +4220,26 @@
+                    &g_rxtable[priv->intf * CONFIG_STM32H7_ETH_NRXDESC],
+                    &g_rxbuffer[priv->intf * RXBUFFER_SIZE]);
+ 
++#ifdef CONFIG_ARCH_HAVE_PHY
++  //ignore phy-init in RMII DIRECT connection mode,
++  //config link manually as no auto-nego available;
++#ifdef CONFIG_STM32H7_ETHFD
++  priv->fduplex = 1;
++#endif
++#ifdef CONFIG_STM32H7_ETH100MBPS
++  priv->mbps100 = 1;
++#endif
++    
++#else
+   /* Initialize the PHY */
+-
+   ninfo("Initialize the PHY\n");
+   ret = stm32_phyinit(priv);
+   if (ret < 0)
+     {
+       return ret;
+     }
+-
++#endif //CONFIG_STM32H7_RMII_DIRECT
++    
+   /* Initialize the MAC and DMA */
+ 
+   ninfo("Initialize the MAC and DMA\n");
