@@ -71,6 +71,10 @@ else()
       -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
       -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/stm32_ethernet.c.patch
       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
+    COMMAND ${CMAKE_COMMAND}
+      -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
+      -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/Kconfig.patch
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
     add_custom_target(patch_trigs DEPENDS nuttx_patch_trigger)
