@@ -1,19 +1,5 @@
 --- a/stm32_ethernet.c
 +++ b/stm32_ethernet.c
-@@ -3649,10 +3649,11 @@
- #if defined(CONFIG_STM32H7_MII) || defined(CONFIG_STM32H7_RMII)
- 
-   /* MDC and MDIO are common to both modes */
--
-+#ifndef CONFIG_STM32H7_RMII_DIRECT
-+  //MDIO pins are not used in RMII direct mode;
-   stm32_configgpio(GPIO_ETH_MDC);
-   stm32_configgpio(GPIO_ETH_MDIO);
--
-+#endif
-   /* Set up the MII interface */
- 
- #  if defined(CONFIG_STM32H7_MII)
 @@ -4220,15 +4221,26 @@
                     &g_rxtable[priv->intf * CONFIG_STM32H7_ETH_NRXDESC],
                     &g_rxbuffer[priv->intf * RXBUFFER_SIZE]);
