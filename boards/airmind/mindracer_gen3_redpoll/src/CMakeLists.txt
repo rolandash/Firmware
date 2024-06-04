@@ -49,7 +49,6 @@ if("${PX4_BOARD_LABEL}" STREQUAL  "bootloader")
 	target_include_directories(drivers_board PRIVATE ${PX4_SOURCE_DIR}/platforms/nuttx/src/bootloader/common)
 
 else()
-    set_source_files_properties(nuttx_patch_trigger PROPERTIES SYMBOLIC "True")
 	add_library(drivers_board
 		can.c
 		i2c.cpp
@@ -65,19 +64,20 @@ else()
 	add_dependencies(drivers_board arch_board_hw_info)
     
     message(STATUS "[MindRacer Gen.3] Add patch trigger ... ... ")
+    set_source_files_properties(nuttx_patch_event PROPERTIES SYMBOLIC "True")
     add_custom_command(
-    OUTPUT nuttx_patch_trigger
-    COMMAND ${CMAKE_COMMAND}
-      -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
-      -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/stm32_ethernet.c.patch
-      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
-    COMMAND ${CMAKE_COMMAND}
-      -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
-      -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/Kconfig.patch
-      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        OUTPUT nuttx_patch_event
+        COMMAND ${CMAKE_COMMAND}
+          -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
+          -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/stm32_ethernet.c.patch
+          -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
+        COMMAND ${CMAKE_COMMAND}
+          -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32h7/
+          -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/Kconfig.patch
+          -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
-    add_custom_target(patch_trigs DEPENDS nuttx_patch_trigger)
+    add_custom_target(patch_trigs DEPENDS nuttx_patch_event)
     add_dependencies(px4_layer patch_trigs)
 
 	target_link_libraries(drivers_board
