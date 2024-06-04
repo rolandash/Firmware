@@ -178,8 +178,22 @@ stm32_boardinitialize(void)
 	board_control_spi_sensors_power_configgpio();
 
 	/* configure USB interfaces */
-
 	stm32_usbinitialize();
+    
+    /* Need hrt running before using the ADC */
+    hrt_init();
+
+#if !defined(CONFIG_BUILD_FLAT)
+    hrt_ioctl_init();
+#endif
+
+    if (OK == board_determine_hw_info()) {
+        syslog(LOG_INFO, "[boot] Rev 0x%1x : Ver 0x%1x %s\n", board_get_hw_revision(), board_get_hw_version(),
+               board_get_hw_type_name());
+
+    } else {
+        syslog(LOG_ERR, "[boot] Failed to read HW revision and version\n");
+    }
 
 }
 #if 0
@@ -285,14 +299,6 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 
 	/* Need hrt running before using the ADC */
 	px4_platform_init();
-
-	if (OK == board_determine_hw_info()) {
-		syslog(LOG_INFO, "[boot] Rev 0x%1x : Ver 0x%1x %s\n", board_get_hw_revision(), board_get_hw_version(),
-		       board_get_hw_type_name());
-
-	} else {
-		syslog(LOG_ERR, "[boot] Failed to read HW revision and version\n");
-	}
 
 	/* configure SPI interfaces (after we determined the HW version) */
 
