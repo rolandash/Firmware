@@ -6,7 +6,7 @@ set(CMAKE_EXECUTE_PROCESS_COMMAND_ECHO STDOUT)
 
 # cmake_path(GET patch FILENAME patch_name)
 
-message(STATUS "[MindRacer Gen.3] Patching Nuttx ethernet ... ")
+message(STATUS "${msg}")
 
 execute_process(COMMAND ${GIT_EXECUTABLE} -C ${target_dir} apply --ignore-whitespace "${patch}"
     RESULT_VARIABLE ret

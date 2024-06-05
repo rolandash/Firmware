@@ -49,10 +49,17 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND}
       -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32f7/
       -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/stm32_ethernet.c.patch
+      -Dmsg:STRING='[MindRacer Gen.3] Patching Nuttx ethernet ...'
       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
     COMMAND ${CMAKE_COMMAND}
       -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}/platforms/nuttx/NuttX/nuttx/arch/arm/src/stm32f7/
       -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/Kconfig.patch
+      -Dmsg:STRING='[MindRacer Gen.3] Patching Nuttx Kconfig ...'
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
+    COMMAND ${CMAKE_COMMAND}
+      -Dtarget_dir:FILEPATH=${PX4_SOURCE_DIR}
+      -Dpatch:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/patch/adc.cpp.patch
+      -Dmsg:STRING='[MindRacer Gen.3] Patching PX4 adc ...'
       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/apply_patch.cmake
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )

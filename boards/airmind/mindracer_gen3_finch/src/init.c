@@ -175,12 +175,11 @@ stm32_boardinitialize(void)
 
 	const uint32_t gpio[] = PX4_GPIO_INIT_LIST;
 	px4_gpio_init(gpio, arraySize(gpio));
-	board_control_spi_sensors_power_configgpio();
+	//board_control_spi_sensors_power_configgpio();
 
 	/* configure USB interfaces */
 	stm32_usbinitialize();
     
-    /* Need hrt running before using the ADC */
     hrt_init();
 
 #if !defined(CONFIG_BUILD_FLAT)
@@ -196,6 +195,7 @@ stm32_boardinitialize(void)
     }
 
 }
+
 #if 0
 /**Setup ethernet connection
  * Description:
@@ -292,16 +292,15 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 	VDD_3V3_SD_CARD_EN(true);
 	//VDD_5V_PERIPH_EN(true);
 	//VDD_5V_HIPOWER_EN(true);
-	board_control_spi_sensors_power(true, 0xffff);
+	//board_control_spi_sensors_power(true, 0xffff);
 	VDD_3V3_SPEKTRUM_POWER_EN(true);
 	//VDD_5V_RC_EN(true);
 	//VDD_5V_WIFI_EN(true);
 
 	/* Need hrt running before using the ADC */
 	px4_platform_init();
-
+    
 	/* configure SPI interfaces (after we determined the HW version) */
-
 	stm32_spiinitialize();
 
 	/* Does this board have CAN 2 or CAN 3 if not decouple the RX
