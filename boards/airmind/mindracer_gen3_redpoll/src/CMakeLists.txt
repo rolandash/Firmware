@@ -62,7 +62,7 @@ else()
 		usb.c
 	)
 	add_dependencies(drivers_board arch_board_hw_info)
-    
+
     message(STATUS "[MindRacer Gen.3] Add patch trigger ... ... ")
     set_source_files_properties(nuttx_patch_event PROPERTIES SYMBOLIC "True")
     add_custom_command(
@@ -91,4 +91,11 @@ else()
 			nuttx_drivers # sdio
 			px4_layer
 	)
+ 
+    set(config_module_list
+        drivers/adj_bec
+        PARENT_SCOPE
+        )
+    add_subdirectory("drivers/adj_bec")
+
 endif()
