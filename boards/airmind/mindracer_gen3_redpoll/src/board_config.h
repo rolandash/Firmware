@@ -64,7 +64,7 @@
 #  define BOARD_HAS_NBAT_I              2 // No Ibat ADC
 #else
 #  define BOARD_HAS_LTC44XX_VALIDS      0 // No LTC or N Bricks
-#  define BOARD_HAS_USB_VALID           1 // LTC Has No USB valid
+#  define BOARD_HAS_USB_VALID           0 // LTC Has No USB valid
 #  define BOARD_HAS_NBAT_V              1 // Only one Vbat to ADC
 #  define BOARD_HAS_NBAT_I              0 // No Ibat ADC
 #endif
@@ -216,12 +216,23 @@
 
 #define GPIO_nPOWER_IN_A                /* PD10  */ (GPIO_INPUT|GPIO_PULLUP|GPIO_PORTD|GPIO_PIN10)
 //#define GPIO_nPOWER_IN_B                /* PG2  */ (GPIO_INPUT|GPIO_PULLUP|GPIO_PORTG|GPIO_PIN2)
-#define GPIO_nPOWER_IN_C                /* PB4  */ (GPIO_INPUT|GPIO_PULLUP|GPIO_PORTB|GPIO_PIN4)
+//#define GPIO_nPOWER_IN_C                /* PB4  */ (GPIO_INPUT|GPIO_PULLUP|GPIO_PORTB|GPIO_PIN4)
 
 #define GPIO_nVDD_BRICK1_VALID          GPIO_nPOWER_IN_A /* Brick 1 Is Chosen */
 //#define GPIO_nVDD_BRICK2_VALID          GPIO_nPOWER_IN_B /* Brick 2 Is Chosen  */
 #define BOARD_NUMBER_BRICKS             1
-#define GPIO_nVDD_USB_VALID             GPIO_nPOWER_IN_C /* USB     Is Chosen */
+
+/* By Providing BOARD_ADC_USB_CONNECTED (using the px4_arch abstraction)
+ * this board support the ADC system_power interface, and therefore
+ * provides the true logic GPIO BOARD_ADC_xxxx macros.
+ */
+#define BOARD_ADC_USB_CONNECTED (board_read_VBUS_state() == 0)
+
+#if BOARD_HAS_USB_VALID == 1
+#  define BOARD_ADC_USB_VALID     (!px4_arch_gpioread(GPIO_nVDD_USB_VALID))
+#else
+#  define BOARD_ADC_USB_VALID     BOARD_ADC_USB_CONNECTED
+#endif
 
 #if 0
 #define GPIO_nVDD_5V_PERIPH_EN          /* PG4  */ (GPIO_OUTPUT|GPIO_PUSHPULL|GPIO_SPEED_2MHz|GPIO_OUTPUT_SET|GPIO_PORTG|GPIO_PIN4)
@@ -324,17 +335,6 @@
 #  warning SDIO initialization cannot be perfomed on the IDLE thread
 #endif
 
-/* By Providing BOARD_ADC_USB_CONNECTED (using the px4_arch abstraction)
- * this board support the ADC system_power interface, and therefore
- * provides the true logic GPIO BOARD_ADC_xxxx macros.
- */
-#define BOARD_ADC_USB_CONNECTED (px4_arch_gpioread(GPIO_OTGFS_VBUS))
-
-#if BOARD_HAS_USB_VALID == 1
-#  define BOARD_ADC_USB_VALID     (!px4_arch_gpioread(GPIO_nVDD_USB_VALID))
-#else
-#  define BOARD_ADC_USB_VALID     BOARD_ADC_USB_CONNECTED
-#endif
 
 /* FMUv5 never powers odd the Servo rail */
 
@@ -381,7 +381,6 @@
 		GPIO_CAN1_RX,                     \
 		GPIO_HEATER_OUTPUT,               \
 		GPIO_nPOWER_IN_A,                 \
-		GPIO_nPOWER_IN_C,                 \
         GPIO_VDD_3V3_SD_CARD_EN,          \
 		GPIO_VDD_3V3_SPEKTRUM_POWER_EN,   \
 		GPIO_TONE_ALARM_IDLE,             \
