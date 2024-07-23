@@ -123,6 +123,8 @@
 #define ADC_HW_VER_SENSE_CHANNEL            /* PA2 */  ADC1_CH(2)
 #define ADC_HW_REV_SENSE_CHANNEL            /* PC1 */  ADC1_CH(11)
 
+#define SYSTEM_ADC_BASE STM32_ADC1_BASE
+
 #if BOARD_HAS_NBAT_V == 2 && BOARD_HAS_NBAT_I == 2
 #define ADC_CHANNELS \
 	((1 << ADC_BATTERY1_VOLTAGE_CHANNEL)       | \

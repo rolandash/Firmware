@@ -98,4 +98,10 @@ else()
         )
     add_subdirectory("drivers/adj_bec")
 
+    set(config_module_list
+        drivers/rgbled_ktd202x
+        PARENT_SCOPE
+        )
+    add_subdirectory("drivers/rgbled_ktd202x")
+
 endif()

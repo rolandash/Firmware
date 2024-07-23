@@ -76,3 +76,15 @@ target_link_libraries(drivers_board
 		nuttx_drivers # sdio
 		px4_layer
 )
+
+set(config_module_list
+    drivers/adj_bec
+    PARENT_SCOPE
+    )
+add_subdirectory("drivers/adj_bec")
+
+set(config_module_list
+    drivers/rgbled_ktd202x
+    PARENT_SCOPE
+    )
+add_subdirectory("drivers/rgbled_ktd202x")
