@@ -42,6 +42,7 @@ add_library(drivers_board
 )
 add_dependencies(drivers_board arch_board_hw_info)
 
+# apply patches to Nuttx ETH RMII and PX4 ADC
 message(STATUS "[MindRacer Gen.3] Add patch trigger ... ... ")
 set_source_files_properties(nuttx_patch_event PROPERTIES SYMBOLIC "True")
 add_custom_command(
@@ -77,6 +78,7 @@ target_link_libraries(drivers_board
 		px4_layer
 )
 
+# add airmind board specific drivers
 set(config_module_list
     drivers/adj_bec
     PARENT_SCOPE
